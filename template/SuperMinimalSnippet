@@ -1,6 +1,6 @@
 {
   "C++ Comp Prog": {
-    "prefix": "cpcpp",
+    "prefix": "cpp",
     "scope": "cpp",
     "body": [
       "#include <bits/stdc++.h>",
