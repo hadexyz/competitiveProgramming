@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using vll = vector<long long>;
+//2d matrix:vector<vector<long long>> vec(rows, vector<long long>(cols, 0)); // all zeros
+void solve()
+{
+    int a,b,c,d;
+    cin >> a >> b >> c >> d;
+
+    if(a==b && b==c && c==d) cout << "YES" << "\n";
+    
+    else cout << "NO" << "\n";
+}
+int main()
+{
+    cin.tie(NULL);
+    ios_base::sync_with_stdio(false);
+    int n=1;
+    cin >> n;
+    while(n--)
+    solve();
+    return 0;
+}
