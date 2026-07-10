@@ -5,39 +5,64 @@ using vll = vector<long long>;
 //2d matrix:vector<vector<long long>> vec(rows, vector<long long>(cols, 0)); // all zeros
 void solve()
 {
-    ll n,k; cin >> n >> k
-    vll a(n+1,0);
-    for(ll i = 1; i <= n; i++) cin >> a[i];
-    sort(a.begin()+1,a.end());
-    ll midIt = n/2+1;
-    ll mid = a[midIt];
-    ll counterIt = midIt+1;
-    ll multi=1;
-    while(k>0)
-    {
-        if(midIt == 1)
-        {
-            cout << mid + k << "\n";
-            return;
-        }
-    //1 1 1 1 3 3 5 9 13 operations=10
-    //1 1 1 1 2 2 2 5 8 operations=10
-    //1 1 1 1 5 5 5 5 8 ops=1; ops=10-(counterIt-midIt)*a[counterIt] - mid which is 10-9;
-    // if k<0 when k-(counterIt-midIt)*(a[counterIt]-mid) above,USE BinARY SERAFCH on the x for maximize median for x<=k,is+O(n log n)
-        if(mid != a[counterIt] && k-((a[counterIt]-mid)*multi) >= 0)
-        {
-            ll diff=(a[midIt+1]-mid)*multi;
-            k -= diff;
-            mid += diff;
-            multi++;
-            continue;
-        }
-        else if(mid != a[counterIt] && counterIt != n)
-        {
+ ll n, k; cin >> n >> k;
+    vll a(n+1, 0);
+    for (ll i = 1; i <= n; i++) cin >> a[i];
+    sort(a.begin() + 1, a.end());
 
-        }
+    ll mid = a[n/2+1];
+    ll counterIt = n/2+2;
+    ll multi = 0;
 
+    while (counterIt <= n) {
+        ll gap = a[counterIt] - mid;
+        ll cost = gap * (multi + 1);
+        if (cost > k) break;//CANT AFFORD
+        k -= cost;
+        mid = a[counterIt];
+        multi++; counterIt++;
+
+        while (counterIt <= n && a[counterIt] == mid) { multi++; counterIt++; }
     }
+   // mid += something to fill the gap 
+   // 1 1 2 2 2 2 10 ops=3
+
+    auto feasible = [&](ll forcemedian, ll newK)
+    {
+    ll newCntrMid = n/2+1;
+        if(forcemedian <= mid) return true;
+        else
+        {
+            while(newCntrMid <= n)
+            {
+                if(a[newCntrMid] < mid) a[newCntrMid] = mid;
+                ll newDiff= max(0LL, forcemedian - a[newCntrMid]);
+
+                newK -= newDiff;
+                newCntrMid++;
+            }
+            if(newK>=0) return true;
+            else return false;
+        }
+    };
+   ll lo=mid;
+   ll hi=2e9;
+    ll answ=mid;
+    while(lo <= hi)
+    {
+        ll mi = lo+(hi-lo)/2;
+        if(feasible(mi,k))
+        {
+            answ=mi;
+            lo=mi+1;
+        }
+        else
+        {
+            hi=mi-1;
+        }
+    }
+    cout << answ << "\n";
+
 }
 int main()
 {
