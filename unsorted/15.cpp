@@ -5,7 +5,8 @@ using vll = vector<long long>;
 //2d matrix:vector<vector<long long>> vec(rows, vector<long long>(cols, 0)); // all zeros
 void solve()
 {
-    
+    cout << "grr1";
+    cout << "grr3";
 }
 int main()
 {
